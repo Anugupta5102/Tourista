@@ -16,7 +16,7 @@ Tourista is a full-featured, interactive travel website built using the **MERN s
 ![Package](./Screenshots/packages.png)
 
 ###  Destination 
-![Destination](./Screenshots/destinations.png)
+![Destination](./Screenshots/destinitions.png)
 
 ###  E-Books
 ![EBooks](./Screenshots/ebooks.png)
