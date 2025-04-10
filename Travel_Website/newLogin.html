@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tourista</title>
+  <link rel="icon" type="image/x-icon" href="log/favicon.ico" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/f2e55912f8.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="./login/login.css" />
+</head>
+
+<body>
+  <div id="loginSuccessBanner" class="success-banner">Logged in successfully</div>
+  <div id="loginDeclineBanner" class="decline-banner">Login Blocked<br />Credentials didn't match</div>
+  <div id="registerSuccessBanner" class="success-banner">Registered successfully</div>
+  <div id="registerDeclineBanner" class="decline-banner">Register Blocked<br /><span id="registerErrorMessage">Email already exists</span></div>
+
+  <div>
+    <a href="index.html">
+      <button style="padding: 25px; border-radius: 40px; font-size: 20px;">
+        <i class="lni lni-home"></i>
+      </button>
+    </a>
+  </div>
+
+  <div class="main-container">
+    <div class="container" id="container">
+      <div class="form-container register-container">
+        <form id="registerForm">
+          <h1>Tourista</h1>
+          <input type="text" placeholder="Name" id="registerName" />
+          <input type="email" placeholder="Email" id="registerEmail" />
+          <div class="input-container">
+            <input type="password" placeholder="Password" id="registerPassword" oninput="checkPasswordStrength()" />
+            <button type="button" id="toggleRegisterPassword">
+              <i id="registerIcon" class="fas fa-eye"></i>
+            </button>
+          </div>
+          <small id="passwordStrengthMsg" style="color: red;"></small>
+          <button type="submit">Register</button>
+          <div class="social-container">
+            <a href="https://facebook.com" class="social"><i class="lni lni-facebook-fill"></i></a>
+            <a href="https://google.com" class="social"><i class="lni lni-google"></i></a>
+            <a href="https://linkedin.com" class="social"><i class="lni lni-linkedin-original"></i></a>
+          </div>
+        </form>
+      </div>
+
+      <div class="form-container login-container">
+        <form id="loginForm">
+          <h1>Tourista</h1>
+          <input type="email" placeholder="Email" id="loginEmail" />
+          <div class="input-container">
+            <input type="password" placeholder="Password" id="loginPassword" />
+            <button type="button" id="toggleLoginPassword">
+              <i id="loginIcon" class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="content">
+            <div class="checkbox">
+              <input type="checkbox" id="checkbox" />
+              <label>Remember me</label>
+            </div>
+            <div class="pass-link">
+              <a href="forgotPassword.html">Forgot password?</a>
+            </div>
+          </div>
+          <button type="submit">Login</button>
+          <span>or use your account</span>
+          <div class="social-container">
+            <a href="https://facebook.com" class="social"><i class="lni lni-facebook-fill"></i></a>
+            <a href="https://google.com" class="social"><i class="lni lni-google"></i></a>
+            <a href="https://linkedin.com" class="social"><i class="lni lni-linkedin-original"></i></a>
+          </div>
+        </form>
+      </div>
+
+      <div class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-left">
+            <h1 class="title">Hello <br> friends</h1>
+            <p>If you have an account, login here and have fun</p>
+            <button class="ghost" id="login">Login <i class="lni lni-arrow-left login"></i></button>
+          </div>
+          <div class="overlay-panel overlay-right">
+            <h1 class="title">Start your <br> journey now</h1>
+            <p>If you don't have an account yet, join us and start your journey.</p>
+            <button class="ghost" id="register">Register <i class="lni lni-arrow-right register"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function checkPasswordStrength() {
+      const password = document.getElementById("registerPassword").value;
+      const strengthMsg = document.getElementById("passwordStrengthMsg");
+      let strength = "Weak";
+      let color = "red";
+
+      if (
+        password.length >= 8 &&
+        /[A-Z]/.test(password) &&
+        /[a-z]/.test(password) &&
+        /[0-9]/.test(password) &&
+        /[!@#\$%\^\&*\)\(+=._-]/.test(password)
+      ) {
+        strength = "Strong";
+        color = "green";
+      } else if (
+        password.length >= 6 &&
+        ((/[A-Z]/.test(password) && /[a-z]/.test(password)) || /[0-9]/.test(password))
+      ) {
+        strength = "Medium";
+        color = "orange";
+      }
+
+      strengthMsg.textContent = `Password strength: ${strength}`;
+      strengthMsg.style.color = color;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("container");
+
+      document.getElementById("register").addEventListener("click", (e) => {
+        e.preventDefault();
+        container.classList.add("right-panel-active");
+      });
+
+      document.getElementById("login").addEventListener("click", (e) => {
+        e.preventDefault();
+        container.classList.remove("right-panel-active");
+      });
+
+      document.getElementById("registerForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        validateForm("register");
+      });
+
+      document.getElementById("loginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        validateForm("login");
+      });
+
+      document.getElementById("registerName").addEventListener("keypress", (event) => {
+        const char = String.fromCharCode(event.which);
+        if (!/[a-zA-Z]/.test(char)) event.preventDefault();
+      });
+
+      async function validateForm(formType) {
+        const spcharRegex = /[<>"/]/;
+
+        if (formType === "register") {
+          const name = document.getElementById("registerName").value;
+          const email = document.getElementById("registerEmail").value;
+          const password = document.getElementById("registerPassword").value;
+
+          if (!name || !email || !password) return alert("Please fill in all fields");
+          if (!validateEmail(email)) return alert("Enter a valid email");
+          if (spcharRegex.test(name) || spcharRegex.test(password)) return alert("Invalid characters");
+
+          try {
+            const res = await fetch("http://localhost:5000/api/auth/signup", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name, email, password }),
+            });
+
+            const result = await res.json();
+
+            if (res.ok) {
+              registerSuccessBanner.style.display = "block";
+              setTimeout(() => {
+                registerSuccessBanner.style.display = "none";
+                document.getElementById("registerForm").reset();
+              }, 3000);
+            } else {
+              document.getElementById("registerErrorMessage").innerText = result.message || "Registration failed.";
+              registerDeclineBanner.style.display = "block";
+              setTimeout(() => {
+                registerDeclineBanner.style.display = "none";
+              }, 6000);
+            }
+          } catch (err) {
+            alert("Registration failed. Try again later.");
+          }
+        } else {
+          const email = document.getElementById("loginEmail").value;
+          const password = document.getElementById("loginPassword").value;
+
+          if (!email || !password) return alert("Please fill in all fields");
+          if (!validateEmail(email)) return alert("Enter a valid email");
+          if (spcharRegex.test(password)) return alert("Invalid characters in password");
+
+          try {
+            const res = await fetch("http://localhost:5000/api/auth/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
+            });
+
+            if (res.ok) {
+              loginSuccessBanner.style.display = "block";
+              setTimeout(() => {
+                loginSuccessBanner.style.display = "none";
+                document.getElementById("loginForm").reset();
+                window.location.href = "dashboard.html"; // redirect to your dashboard
+              }, 3000);
+            } else {
+              loginDeclineBanner.style.display = "block";
+              setTimeout(() => {
+                loginDeclineBanner.style.display = "none";
+              }, 6000);
+            }
+          } catch (err) {
+            alert("Login failed. Please try again later.");
+          }
+        }
+      }
+
+      function validateEmail(email) {
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(email);
+      }
+    });
+  </script>
+</body>
+
+</html>

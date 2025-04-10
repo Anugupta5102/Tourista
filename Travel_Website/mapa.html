@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tourista | Tourism Map</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+      /* Fullscreen Map */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      #map {
+        height: 100vh;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      // Initialize map centered on India
+      const map = L.map('map').setView([20.5937, 78.9629], 5);
+
+      // Add OpenStreetMap tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      // Add Markers
+      const sites = [
+        {
+          coords: [27.1751, 78.0421],
+          popup: "<b>Taj Mahal</b><br>A UNESCO World Heritage Site."
+        },
+        {
+          coords: [28.5245, 77.1855],
+          popup: "<b>Qutub Minar</b><br>A historical monument in Delhi."
+        },
+        {
+          coords: [18.922, 72.8347],
+          popup: "<b>Gateway of India</b><br>Iconic tourist attraction in Mumbai."
+        }
+      ];
+
+      sites.forEach(site => {
+        L.marker(site.coords).addTo(map).bindPopup(site.popup);
+      });
+    </script>
+  </body>
+</html>

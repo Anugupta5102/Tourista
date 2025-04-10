@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tourista | Membership Plans</title>
+
+  <!-- Remixicon, FontAwesome, Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-..." crossorigin="anonymous" />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="./Image-Gallery/style.css" />
+  <link rel="stylesheet" href="membership.css" />
+
+</head>
+
+<body>
+
+  <!-- Sticky Nav Scroll Script -->
+  <script>
+    window.addEventListener("scroll", function () {
+      var header = document.querySelector("nav");
+      header.classList.toggle("sticky", window.scrollY > 50)
+    });
+  </script>
+
+  <!-- Navigation -->
+  <nav class="newNav">
+    <div style="display: flex; align-items: center;">
+      <img src="favicon.ico" class="sitelogo" />
+      <a href="#" class="nav__logo">Tourista<span>.</span></a>
+    </div>
+
+    <ul class="navLinks">
+      <li class="link"><a href="mapa.html">View</a></li>
+      <li class="link"><a href="newLogin.html">Log In</a></li>
+      <li class="link"><a href="index.html">Home</a></li>
+      <li class="link"><a href="about.html">About</a></li>
+      <li class="link dropdown">
+        <a href="#Services" class="dropdown">Services</a>
+        <ul class="dropdown-menu">
+          <li><a href="index.html#Destinations">Destination</a></li>
+          <li><a href="index.html#trip">Prices</a></li>
+          <li><a href="index.html#ReviewGallery">Trip Gallery</a></li>
+          <li><a href="index.html#tourist">Tourist Guide</a></li>
+          <li><a href="index.html#hotel">Hotel & Resort</a></li>
+        </ul>
+      </li>
+      <li class="link"><a href="index.html#testimo">Testimonial</a></li>
+      <li class="link"><a href="feedback.html">Rate Us?</a></li>
+      <li class="link"><a href="index.html#cnt-form">Contact Us</a></li>
+    </ul>
+
+    <a href="newLogin.html" class="contact-btn">
+      <button class="btn login" id="btn-style">Login/SignUp</button>
+    </a>
+    <a href="mapa.html" class="contact-btn">
+      <button class="btn" id="btn-style">View</button>
+    </a>
+    <a href="loginPage.html" class="contact-btn">
+      <button class="btn" id="logout-btn" style="display: none;" disabled>Log Out</button>
+    </a>
+
+    <div class="toggle-container">
+      <input id="themeToggle" class="toggle" type="checkbox" />
+    </div>
+    <div class="hamburger">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+  </nav>
+
+  <!-- Scroll Progress Bar -->
+  <div class="nav-wrapperr">
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- Scroll Progress Script -->
+  <script>
+    window.addEventListener('scroll', function () {
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progress-bar').style.width = scrolled + '%';
+    });
+  </script>
+
+  <!-- Heading -->
+  <div class="heading">
+    <h1>Checkout our Membership Plans</h1>
+  </div>
+
+  <!-- Help Section -->
+  <div class="gethelp">
+    <div class="help">
+      <a href="#">
+        <h3>Get HELP to choose a plan</h3>
+        <img width="100%" height="100%" src="https://img.icons8.com/ultraviolet/40/customer-support.png"
+          alt="customer-support" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Membership Plans -->
+  <div class="wrapper">
+    <!-- BASIC PLAN -->
+    <div class="table basic">
+      <div class="price-section">
+        <div class="price-area">
+          <div class="inner-area">
+            <span class="text">INR</span>
+            <span class="price">15000/-</span>
+          </div>
+        </div>
+      </div>
+      <ul class="features">
+        <li><span class="list-name">5% Discounts on Accommodations</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Exclusive Travel Guides</span><span class="icon cross"><i class="fas fa-times"></i></span></li>
+        <li><span class="list-name">Monthly Travel Webinars</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Cancellation Protection</span><span class="icon cross"><i class="fas fa-times"></i></span></li>
+        <li><span class="list-name">Priority Customer Support</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Unlimited Access to Premium Content</span><span class="icon cross"><i class="fas fa-times"></i></span></li>
+        <li><span class="list-name">Free Activities with All Tour Packages</span><span class="icon cross"><i class="fas fa-times"></i></span></li>
+        <li><span class="list-name">Exclusive Travel Merchandise</span><span class="icon cross"><i class="fas fa-times"></i></span></li>
+        <li><span class="list-name">Points/Rewards Program</span><span class="icon cross"><i class="fas fa-times"></i></span></li>
+      </ul>
+      <a href="../payment.html?package=basic"><div class="purchase-btn"><button>Purchase</button></div></a>
+    </div>
+
+    <!-- PREMIUM PLAN -->
+    <div class="table premium">
+      <div class="ribbon"><span>Recommended</span></div>
+      <div class="price-section">
+        <div class="price-area">
+          <div class="inner-area">
+            <span class="text">INR</span>
+            <span class="price">20000/-</span>
+          </div>
+        </div>
+      </div>
+      <ul class="features">
+        <li><span class="list-name">15% Discounts on Accommodations</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Exclusive Travel Guides</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Monthly Travel Webinars</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Cancellation Protection</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Priority Customer Support</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Unlimited Access to Premium Content</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Free Activities with All Tour Packages</span><span class="icon cross"><i class="fas fa-times"></i></span></li>
+        <li><span class="list-name">Exclusive Travel Merchandise</span><span class="icon cross"><i class="fas fa-times"></i></span></li>
+        <li><span class="list-name">Points/Rewards Program</span><span class="icon cross"><i class="fas fa-times"></i></span></li>
+      </ul>
+      <a href="../payment.html?package=premium"><div class="purchase-btn"><button>Purchase</button></div></a>
+    </div>
+
+    <!-- ULTIMATE PLAN -->
+    <div class="table ultimate">
+      <div class="price-section">
+        <div class="price-area">
+          <div class="inner-area">
+            <span class="text">INR</span>
+            <span class="price">25000/-</span>
+          </div>
+        </div>
+      </div>
+      <ul class="features">
+        <li><span class="list-name">25% Discounts on Accommodations</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Basic and Premium plan perks included</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Airport Lounge Access</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Free Travel Insurance</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Unlimited Access to Premium Content</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Cancellation Protection</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Priority Customer Support</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Free Activities with All Tour Packages</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+        <li><span class="list-name">Exclusive Travel Merchandise</span><span class="icon check"><i class="fas fa-check"></i></span></li>
+      </ul>
+      <a href="../payment.html?package=ultimate"><div class="purchase-btn"><button>Purchase</button></div></a>
+    </div>
+  </div>
+
+  <!-- Hamburger Menu Script -->
+  <script>
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.navLinks').classList.toggle('activeHamburger');
+    });
+  </script>
+
+  <!-- Dark Mode Toggle Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleCheckbox = document.getElementById('themeToggle');
+      const body = document.body;
+
+      if (localStorage.getItem('dark-mode') === 'enabled') {
+        body.classList.add('dark-mode');
+        toggleCheckbox.checked = true;
+      }
+
+      toggleCheckbox.addEventListener('change', () => {
+        if (toggleCheckbox.checked) {
+          body.classList.add('dark-mode');
+          localStorage.setItem('dark-mode', 'enabled');
+        } else {
+          body.classList.remove('dark-mode');
+          localStorage.setItem('dark-mode', 'disabled');
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

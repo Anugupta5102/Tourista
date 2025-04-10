@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hotel Booking Packing List</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAgEx3UTsYmOsw00pc-dRtsGkOEgFmS7ca-w&s") 
+        no-repeat center fixed;
+      background-size: cover;
+      color: #333;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #fff;
+    }
+
+    form, .packing-list {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .packing-list ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .packing-list ul li {
+      background: #f1f1f1;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+    }
+
+    .home-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #f60303;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .home-button:hover {
+      background-color: #f2444d;
+      color: #000;
+      box-shadow: 0 0 10px rgba(7, 6, 13, 0.9);
+      border: 1px solid black;
+    }
+
+    @media (max-width: 768px) {
+      .home-button {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
+
+      form, .packing-list {
+        padding: 15px;
+      }
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+
+<body>
+  <a href="index.html" class="home-button">Home</a>
+
+  <div class="container">
+    <h1>Customizable Packing List</h1>
+
+    <form id="packing-form">
+      <label for="trip-type">Type of Trip:</label>
+      <select id="trip-type" name="trip-type" required>
+        <option value="">--Select--</option>
+        <option value="beach">Beach</option>
+        <option value="mountains">Mountains</option>
+        <option value="city">City</option>
+        <option value="international">International</option>
+      </select>
+
+      <label for="duration">Duration (days):</label>
+      <input type="number" id="duration" name="duration" min="1" max="30" required>
+
+      <label for="weather">Expected Weather:</label>
+      <select id="weather" name="weather" required>
+        <option value="">--Select--</option>
+        <option value="hot">Hot</option>
+        <option value="cold">Cold</option>
+        <option value="moderate">Moderate</option>
+      </select>
+
+      <button type="submit">Generate Packing List</button>
+    </form>
+
+    <div id="packing-list" class="packing-list" style="display: none;">
+      <h2>Your Packing List</h2>
+      <ul id="list"></ul>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('packing-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const tripType = document.getElementById('trip-type').value;
+      const duration = parseInt(document.getElementById('duration').value, 10);
+      const weather = document.getElementById('weather').value;
+
+      if (!tripType || !weather || !duration) {
+        Swal.fire("Please fill out all fields.");
+        return;
+      }
+
+      const packingList = generatePackingList(tripType, duration, weather);
+      displayPackingList(packingList);
+    });
+
+    function generatePackingList(tripType, duration, weather) {
+      const commonItems = ['Toothbrush', 'Toothpaste', 'Shampoo', 'Conditioner', 'Body Wash', 'Deodorant', 'Underwear', 'Socks'];
+      const packingList = [...commonItems];
+
+      const tripItems = {
+        beach: ['Swimsuit', 'Sunscreen', 'Beach Towel', 'Flip Flops'],
+        mountains: ['Hiking Boots', 'Jacket', 'Backpack', 'Map'],
+        city: ['Comfortable Shoes', 'Guidebook', 'Camera', 'City Map'],
+        international: ['Passport', 'Travel Adapter', 'Language Guide', 'Currency']
+      };
+
+      const weatherItems = {
+        hot: ['Sunglasses', 'Hat', 'Light Clothing'],
+        cold: ['Gloves', 'Scarf', 'Warm Clothing'],
+        moderate: ['Light Jacket', 'Comfortable Clothing']
+      };
+
+      if (tripItems[tripType]) packingList.push(...tripItems[tripType]);
+      if (weatherItems[weather]) packingList.push(...weatherItems[weather]);
+
+      for (let i = 1; i <= duration; i++) {
+        packingList.push(`Day ${i} Outfit`);
+      }
+
+      return packingList;
+    }
+
+    function displayPackingList(packingList) {
+      const listElement = document.getElementById('list');
+      const packingContainer = document.getElementById('packing-list');
+
+      listElement.innerHTML = '';
+      packingList.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.textContent = item;
+        listElement.appendChild(listItem);
+      });
+
+      packingContainer.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+</head>
+<body>
+    <div class="container text-center py-5">
+        <h1>Thank You!</h1>
+        <div id="booking-details" class="mt-4 p-4 border rounded">
+            <h3>Booking Confirmation</h3>
+            <div id="booking-info"></div>
+            <a href="/packages.html" class="btn btn-primary mt-3">View More Packages</a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const bookingId = params.get('bookingId');
+            const bookingInfo = document.getElementById('booking-info');
+            
+            // Try to get from localStorage first
+            const lastBooking = localStorage.getItem('lastBooking');
+            if (lastBooking) {
+                const booking = JSON.parse(lastBooking);
+                bookingInfo.innerHTML = `
+                    <p><strong>Booking ID:</strong> ${booking._id}</p>
+                    <p><strong>Package:</strong> ${booking.package}</p>
+                    <p><strong>Amount:</strong> ₹${booking.amount}</p>
+                    <p><strong>Status:</strong> ${booking.paymentStatus}</p>
+                    <p><strong>Date:</strong> ${new Date(booking.bookingDate).toLocaleString()}</p>
+                `;
+                localStorage.removeItem('lastBooking');
+            } else if (bookingId) {
+                // Fallback to API call if needed
+                fetch(`http://localhost:5000/api/bookings/${bookingId}`)
+                    .then(response => response.json())
+                    .then(booking => {
+                        bookingInfo.innerHTML = `
+                            <p><strong>Booking ID:</strong> ${booking._id}</p>
+                            <p><strong>Package:</strong> ${booking.package}</p>
+                            <p><strong>Amount:</strong> ₹${booking.amount}</p>
+                            <p><strong>Status:</strong> ${booking.paymentStatus}</p>
+                            <p><strong>Date:</strong> ${new Date(booking.bookingDate).toLocaleString()}</p>
+                        `;
+                    })
+                    .catch(error => {
+                        bookingInfo.innerHTML = `<p class="text-danger">Error loading booking details. Please contact support with booking ID: ${bookingId}</p>`;
+                    });
+            } else {
+                bookingInfo.innerHTML = '<p>No booking information available</p>';
+            }
+        });
+    </script>
+</body>
+</html>

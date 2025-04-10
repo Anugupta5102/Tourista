@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup</title>
+  <link rel="stylesheet" href="login.css" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+  <div class="container">
+    <div class="left-section">
+      <button class="back-button" onclick="window.location.href='index.html'">
+        <img src="img/button.png" width="50px" height="50px" />
+      </button>
+      <h1 class="animated-heading">Tourista<span class="blinking-cursor">|</span></h1>
+      <p class="description">
+        Welcome to Tourista, where we firmly believe that life's true purpose unfolds amidst
+        the thrill of exploration and the pursuit of the extraordinary!
+      </p>
+
+      <form id="signupForm" class="login-form">
+        <input type="text" id="name" name="name" placeholder="Name" class="input-field" required />
+        <input type="text" id="username" name="username" placeholder="Username" class="input-field" required />
+        <input type="email" id="email" name="email" placeholder="Email" class="input-field" required />
+        <input type="password" id="password" name="password" placeholder="Password" class="input-field" required />
+        <button type="submit" class="submit-button">Sign up</button>
+      </form>
+
+      <p class="already-signed-up">
+        Already signed up? <a href="login-modified.html">Login</a>
+      </p>
+    </div>
+
+    <div class="right-section">
+      <img src="./img/login1.jpg" alt="travel_pics" class="transition-image" />
+      <img src="./img/login2.jpg" alt="travel_pics" class="transition-image" />
+      <img src="./img/login3.jpg" alt="travel_pics" class="transition-image" />
+      <img src="./img/login4.jpg" alt="travel_pics" class="transition-image" />
+      <img src="./img/login5.jpg" alt="travel_pics" class="transition-image" />
+      <img src="./img/login6.jpg" alt="travel_pics" class="transition-image" />
+      <img src="./img/login7.jpg" alt="travel_pics" class="transition-image" />
+    </div>
+  </div>
+
+  <script>
+    // Image slideshow
+    const images = document.querySelectorAll(".transition-image");
+    let currentImageIndex = 0;
+
+    function showNextImage() {
+      images[currentImageIndex].style.opacity = 0;
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      images[currentImageIndex].style.opacity = 1;
+    }
+
+    setInterval(showNextImage, 3000);
+
+    // Signup form handler (for backend later)
+    const form = document.getElementById("signupForm");
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const userData = {
+        name: form.name.value,
+        username: form.username.value,
+        email: form.email.value,
+        password: form.password.value,
+      };
+
+      try {
+        // Replace URL with actual backend endpoint
+        const response = await fetch("http://localhost:5000/api/v1/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert("Signup successful!");
+          window.location.href = "login-modified.html";
+        } else {
+          alert("Signup failed: " + data.message);
+        }
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
