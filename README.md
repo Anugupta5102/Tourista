@@ -9,14 +9,14 @@ Tourista is a full-featured, interactive travel website built using the **MERN s
 ### 🏠 Home Page
 ![Home](./Screenshots/home.png)
 
-###  Hotels
+###  Hotel Booking 
 ![Hotels](./Screenshots/hotelBooking.png)
 
 ###  Packages
 ![Package](./Screenshots/packages.png)
 
 ###  Destination 
-![Destination](./Screenshots/destinations.png)
+![Destination](./Screenshots/destintions.png)
 
 ###  E-Books
 ![EBooks](./Screenshots/ebooks.png)
