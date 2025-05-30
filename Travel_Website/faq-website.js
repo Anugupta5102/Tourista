@@ -81,5 +81,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function sendEmail() {
-  window.location.href = "mailto:arpanchowdhury003@gmail.com";
+  window.location.href = "mailto:anugupta5102@gmail.com";
 }

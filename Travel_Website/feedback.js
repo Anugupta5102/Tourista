@@ -1,92 +1,45 @@
 const ratings = [];
 document.addEventListener('DOMContentLoaded', () => {
-  const starsContainers = document.getElementsByClassName("stars-container");
+  const starsContainers = document.getElementsByClassName("stars");
   const ratingTexts = document.querySelectorAll('[id$="-rating-text"]');
   //let currentRating = 0;
 
-  function colourStar(ind, container) {
-    try {
-      if (!container) {
-        console.error('Container element not found');
-        return;
-      }
+  function colourStar(ind , container) {
 
-      const stars = Array.from(container.querySelectorAll("span"));
-      if (!stars.length) {
-        console.error('No star elements found in container');
-        return;
-      }
-
-      // remove existing rating
-      stars.forEach(star => {
-        if (star && star.style) {
-          star.style.color = "white";
-        }
-      });
-
-      // set new rating
-      for(let i = 0; i < ind && i < stars.length; i++) {
-        if (stars[i] && stars[i].style) {
-          stars[i].style.color = "#FFA500";
-        }
-      }
-    } catch (error) {
-      console.error('Error in colourStar:', error);
+    let s = container.querySelectorAll("span");
+    s = Array.from(s);
+    // remove existing rating
+    for(let i = 0; i < s.length; i++) {
+      s[i].style.color = "white";
     }
+
+    for(let i = 0; i < ind; i++) {
+      s[i].style.color = "#FFA500";
+    }
+    // console.log(container);
   }
 
-  // Initialize star ratings for each container
-  Array.from(starsContainers).forEach((container, index) => {
-    try {
-      if (!container) {
-        console.error(`Stars container ${index} not found`);
-        return;
-      }
+  // Create 5 stars dynamically for each stars container
+  Array.from(starsContainers).forEach((starsContainer, index) => {
+    ratings[index] = 0;
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('span');
+      star.classList.add('star');
+      star.innerHTML = '★';
+      star.setAttribute('data-rating', i);
+      starsContainer.appendChild(star);
 
-      container.innerHTML = ''; // Clear existing content
-      ratings[index] = 0;
+      star.addEventListener('click', () => {
+        ratings[index] = i;
+        updateRating(index);
+        colourStar(i , starsContainer);
+      });
 
-      for (let i = 1; i <= 5; i++) {
-        const star = document.createElement('span');
-        star.classList.add('star');
-        star.innerHTML = '★';
-        star.setAttribute('data-rating', i);
-        
-      try {
-        if (star && star.style) {
-          star.style.cursor = 'pointer';
-          star.style.fontSize = '1.5rem';
-          star.style.margin = '0 3px';
-        } else {
-          console.error('Star element or style property is null');
-        }
-      } catch (error) {
-        console.error('Error setting star styles:', error);
-      }
-
-        star.addEventListener('click', () => {
-          ratings[index] = i;
-          updateRating(index);
-          colourStar(i, container);
-        });
-
-        container.appendChild(star);
-      }
-    } catch (error) {
-      console.error(`Error initializing stars for container ${index}:`, error);
     }
   });
 
   const updateRating = (index) => {
-    try {
-      if (ratingTexts[index]) {
-        ratingTexts[index].textContent = `Rating: ${ratings[index]}`;
-      } else {
-        console.error(`Rating text element at index ${index} not found`);
-      }
-    } catch (error) {
-      console.error('Error updating rating:', error);
-    }
+    ratingTexts[index].textContent = `Rating: ${ratings[index]}`;
   };
 
 function resetStars() {
@@ -100,68 +53,41 @@ function resetStars() {
     });
   }
 
-window.submitFeedback = async function submitFeedback() {
-  const feedbackInput = document.getElementById("feedback-input");
-  if (!feedbackInput) {
-    console.error('Feedback input element not found');
-    return;
-  }
+window.submitFeedback = function submitFeedback() {
+  var feedbackInput = document.getElementById("feedback-input");
+  var feedback = feedbackInput.value.trim();
   
-  const feedback = feedbackInput.value.trim();
-  
-  // Check if ratings are valid
-  if (!ratings || ratings.length === 0 || ratings.some(rating => rating === 0)) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Please provide ratings for all categories before submitting.',
-    });
-    return;
-  }
+  // Check if any rating is zero
+    if (ratings.some(rating => rating === 0)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please provide a non-zero rating for all categories before submitting.',
+      });
+      return; // Exit the function if any rating is zero
+    }
   
   // Check if the feedback is empty
   if (feedback === "") {
+    // Show a SweetAlert error modal
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
       text: 'Please enter your feedback before submitting.',
     });
-    return;
+    return; // Exit the function if feedback is empty
   }
 
-  try {
-    const response = await fetch('/api/feedback', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ratings: ratings,
-        comments: feedback
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+  Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: 'Your response has been recorded.',
+  }).then((result) => {
+    // Clear the feedback input box after the user acknowledges the success modal
+    if (result.isConfirmed || result.isDismissed) {
+      feedbackInput.value = "";
+      resetStars();
     }
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Success!',
-      text: 'Your feedback has been submitted successfully.',
-    }).then((result) => {
-      if (result.isConfirmed || result.isDismissed) {
-        feedbackInput.value = "";
-        resetStars();
-      }
-    });
-  } catch (error) {
-    console.error('Error submitting feedback:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'There was a problem submitting your feedback. Please try again later.',
-    });
-  }
+  });
 };
 });

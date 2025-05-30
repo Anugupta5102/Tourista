@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Tourista</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="newLogin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+          <div class="card-body">
+            <h3 class="card-title text-center mb-4">Create Account</h3>
+            <form id="register-form">
+              <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" required>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" required>
+              </div>
+              <div class="mb-3">
+                <label for="role" class="form-label">Account Type</label>
+                <select class="form-select" id="role" required>
+                  <option value="user">Regular User</option>
+                  <option value="admin">Administrator</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+            <div class="text-center mt-3">
+              <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const userData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        role: document.getElementById('role').value
+      };
+
+      try {
+        const response = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          alert('Registration successful! Please login.');
+          window.location.href = 'login.html';
+        } else {
+          const error = await response.json();
+          alert(error.message || 'Registration failed');
+        }
+      } catch (err) {
+        console.error('Registration error:', err);
+        alert('An error occurred during registration');
+      }
+    });
+  </script>
+</body>
+</html>

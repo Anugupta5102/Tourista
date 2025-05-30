@@ -1,0 +1,97 @@
+/* Shared dashboard styles */
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.card-header {
+  border-radius: 10px 10px 0 0 !important;
+  font-weight: 600;
+}
+
+/* User dashboard specific */
+.user-profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.booking-card, .payment-card {
+  border-left: 4px solid #0d6efd;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+/* Admin dashboard specific */
+.stats-card {
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+  padding: 15px 0;
+}
+
+#recent-bookings-table, #recent-payments-table {
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stats-card {
+    margin-bottom: 15px;
+  }
+}
+
+/* Theme variables */
+:root {
+  --primary-bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-color: #212529;
+  --navbar-bg: #0207a3;
+}
+
+.dark-mode {
+  --primary-bg: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #f8f9fa;
+  --navbar-bg: #0a0433;
+}
+
+/* Dark mode specific styles */
+.dark-mode body {
+  background-color: var(--primary-bg);
+  color: var(--text-color);
+}
+
+.dark-mode .card {
+  background-color: var(--card-bg);
+  border: 1px solid #333;
+}
+
+.dark-mode .table {
+  color: var(--text-color);
+  background-color: var(--card-bg);
+}
+
+.dark-mode .table th,
+.dark-mode .table td {
+  border-color: #444;
+}
+
+.dark-mode .navbar {
+  background-color: var(--navbar-bg) !important;
+}

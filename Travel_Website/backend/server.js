@@ -114,12 +114,12 @@ const server = http.createServer(async (req, res) => {
   
   // Auth routes
   if (pathname === '/api/auth/signup' && req.method === 'POST') {
-    const { signup } = require('./src/controllers/user-controller-new');
+    const { signup } = require('./src/controllers/authController');
     return await signup(req, res);
   }
   
   if (pathname === '/api/auth/login' && req.method === 'POST') {
-    const { login } = require('./src/controllers/user-controller-new');
+    const { login } = require('./src/controllers/authController');
     return await login(req, res);
   }
 
@@ -175,6 +175,23 @@ const server = http.createServer(async (req, res) => {
   if (pathname === '/api/feedback' && req.method === 'POST') {
     const { submitFeedback } = require('./src/controllers/feedbackController');
     return await submitFeedback(req, res);
+  }
+
+  // Dashboard routes
+  if (pathname === '/api/dashboard' && req.method === 'GET') {
+    const { getUserDashboard, getAdminDashboard } = require('./src/controllers/dashboardController');
+    
+    // Verify authentication first
+    const isAuthenticated = await requireAuth(req, res);
+    if (!isAuthenticated) return;
+
+    // Check user role and route accordingly
+    const user = await User.findById(req.userId);
+    if (user.role === 'admin') {
+      return await getAdminDashboard(req, res);
+    } else {
+      return await getUserDashboard(req, res);
+    }
   }
 
   // Static file serving
